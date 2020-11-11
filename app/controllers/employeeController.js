@@ -6,7 +6,8 @@ function userControllers() {
       res.redirect('/employee/login');
     },
     dashboard(req, res) {
-      res.render('Employee/dashboard');
+      const name = req.session.employee;
+      res.render('Employee/dashboard', { name });
     },
     login(req, res) {
       res.render('Employee/login');
@@ -17,7 +18,7 @@ function userControllers() {
         if (err) throw err;
         if (emp) {
           if (emp.password === password) {
-            req.session.employee = empID;
+            req.session.employee = emp.firstName;
             res.redirect('/employee/dash');
           } else {
             req.flash('error', 'Invalid EmpID or Password');

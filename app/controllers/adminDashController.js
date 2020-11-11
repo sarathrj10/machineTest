@@ -1,3 +1,4 @@
+const moment = require('moment');
 const User = require('../models/user');
 
 function adminDashControllers() {
@@ -16,8 +17,9 @@ function adminDashControllers() {
           req.flash('error', 'Employee already exists');
           res.redirect('/dash');
         } else {
+          const date = moment().format('DD/MM/YYYY');
           const user = new User({
-            firstName, lastName, empID, password,
+            firstName, lastName, empID, password, date,
           });
           user.save().then(() => {
             res.redirect('/dash');
@@ -31,6 +33,37 @@ function adminDashControllers() {
         if (err) throw err;
         res.redirect('/dash');
       });
+    },
+    dateFilter(req, res) {
+      const datas = [];
+      const dateArray = [];
+      const from = new Date(req.body.from);
+      const to = new Date(req.body.to);
+      function getDates(from, to) {
+        return new Promise((resolve) => {
+          let currentDate = moment(from);
+          const stopDate = moment(to);
+          while (currentDate <= stopDate) {
+            dateArray.push(moment(currentDate).format('DD/MM/YYYY'));
+            currentDate = moment(currentDate).add(1, 'days');
+          }
+          resolve();
+        });
+      }
+
+      function sendData(dateArray) {
+        dateArray.forEach(async (date) => {
+          await User.find({ date }, (err, data) => {
+            data.forEach((ele) => {
+              if (ele != null) datas.push(ele);
+            });
+          });
+        });
+      }
+      getDates(from, to).then(sendData(dateArray));
+      setTimeout(() => {
+        res.json(datas);
+      }, 100);
     },
   };
 }
