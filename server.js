@@ -11,7 +11,7 @@ const adminRoute = require('./routes/admin');
 const app = express();
 // load config
 dotenv.config({ path: './app/config/config.env' });
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 7000;
 
 // database connection
 const url = process.env.MONGO_URL;
