@@ -14,7 +14,7 @@ dotenv.config({ path: './app/config/config.env' });
 const PORT = process.env.PORT || 3000;
 
 // database connection
-const url = 'mongodb://localhost:27017/machineTest';
+const url = process.env.MONGO_URL;
 mongoose.connect(url, {
   useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: true,
 });
