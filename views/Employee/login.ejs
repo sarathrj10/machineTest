@@ -1,0 +1,17 @@
+<%- include('partials/header.ejs') %>
+<div class="col-12 col-md-6 mx-auto bg-light p-4 mt-5">
+    <form method="POST" action="/employee/login">
+        <h4>Employee Login</h4>
+        <div class="form-group">
+            <label for="empid">Employee ID</label>
+            <input type="number" name="empid" class="form-control" id="empid" placeholder="EmpID" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mb-2">Login</button>
+    </form>
+    <a href="/">>Login as Admin</a>
+</div>
+<%- include('partials/footer.ejs') %>
