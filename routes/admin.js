@@ -15,5 +15,8 @@ router.get('/dash', protectDash, adminDashControllers().dashboard);
 // post routes
 
 router.post('/', adminAuthControllers().postLogin);
+router.post('/addEmployee', adminDashControllers().addEmployee);
+router.post('/employeeDelete', adminDashControllers().employeeDelete);
+router.post('/logout', adminAuthControllers().logout);
 
 module.exports = router;

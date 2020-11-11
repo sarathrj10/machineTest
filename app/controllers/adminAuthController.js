@@ -14,7 +14,9 @@ function adminAuthControllers() {
       }
     },
     logout(req, res) {
-        
+      req.session.destroy();
+      res.clearCookie('AdminCookie');
+      res.redirect('/');
     },
   };
 }
