@@ -35,7 +35,6 @@ function adminDashControllers() {
       });
     },
     dateFilter(req, res) {
-      const datas = [];
       const dateArray = [];
       const from = new Date(req.body.from);
       const to = new Date(req.body.to);
@@ -52,18 +51,23 @@ function adminDashControllers() {
       }
 
       function sendData(dateArray) {
-        dateArray.forEach(async (date) => {
-          await User.find({ date }, (err, data) => {
-            data.forEach((ele) => {
-              if (ele != null) datas.push(ele);
+        const datas = [];
+        return new Promise((resolve) => {
+          dateArray.forEach(async (date) => {
+            await User.find({ date }, (err, data) => {
+              if (data.length > 0) {
+                data.forEach((ele) => {
+                  if (ele != null) datas.push(ele);
+                });
+              }
             });
+            resolve(datas);
           });
         });
       }
-      getDates(from, to).then(sendData(dateArray));
-      setTimeout(() => {
+      getDates(from, to).then(sendData(dateArray).then((datas) => {
         res.json(datas);
-      }, 100);
+      }));
     },
   };
 }
